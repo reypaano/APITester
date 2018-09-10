@@ -1,7 +1,9 @@
-package com.example.reyanthonypaano.apitester;
+package com.example.reyanthonypaano.apitester.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.reyanthonypaano.apitester.R;
 
 public class MainActivity extends AppCompatActivity {
 
