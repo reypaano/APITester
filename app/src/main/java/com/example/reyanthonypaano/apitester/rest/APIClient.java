@@ -1,10 +1,16 @@
 package com.example.reyanthonypaano.apitester.rest;
 
+import android.text.TextUtils;
+
+import okhttp3.Credentials;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class APIClient {
     public static final String API_BASE_URL = "http://172.16.26.124:8080/shifu/";
+
+    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     private static Retrofit.Builder builder = new Retrofit.Builder()
                                                 .baseUrl(API_BASE_URL)
@@ -12,7 +18,30 @@ public class APIClient {
 
     private static Retrofit retrofit = builder.build();
 
-    public static Retrofit getClient() {
-        return retrofit;
+    public static <S> S createService(Class<S> serviceClass) {
+        return createService(serviceClass, null, null);
+    }
+
+    public static <S> S createService(Class<S> serviceClass, String user, String password) {
+        if(!TextUtils.isEmpty(user) && !TextUtils.isEmpty(password)) {
+            String authToken = Credentials.basic(user, password);
+
+            return createService(serviceClass, authToken);
+        }
+    }
+
+    public static <S> S createService(Class<S> serviceClass, final String authToken) {
+        if(!TextUtils.isEmpty(authToken)) {
+            AuthInterceptor interceptor = new AuthInterceptor(authToken);
+
+            if(!httpClient.interceptors().contains(interceptor)) {
+                httpClient.addInterceptor(interceptor);
+
+                builder.client(httpClient.build());
+                retrofit = builder.build();
+            }
+        }
+
+        return retrofit.create(serviceClass);
     }
 }
