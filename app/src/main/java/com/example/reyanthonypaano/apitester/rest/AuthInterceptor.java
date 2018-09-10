@@ -8,18 +8,20 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class AuthInterceptor implements Interceptor {
-    private String credentials;
+    private String authToken;
 
-    public AuthInterceptor(String user, String password) {
-        this.credentials = Credentials.basic(user, password);
+    public AuthInterceptor(String token) {
+        this.authToken = token;
     }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
 
-        Request authenticatedRequest = request.newBuilder()
-                .header("Authorization", credentials).build();
+        Request.Builder builder = request.newBuilder()
+                .header("Authorization", authToken);
+
+        Request authenticatedRequest = builder.build();
 
         return chain.proceed(authenticatedRequest);
     }
