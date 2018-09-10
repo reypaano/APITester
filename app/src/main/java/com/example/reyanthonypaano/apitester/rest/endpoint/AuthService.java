@@ -1,4 +1,4 @@
-package com.example.reyanthonypaano.apitester.rest;
+package com.example.reyanthonypaano.apitester.rest.endpoint;
 
 import com.example.reyanthonypaano.apitester.model.UserAuth;
 import com.example.reyanthonypaano.apitester.model.User;
@@ -9,7 +9,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
-public interface APIInterface {
+public interface AuthService {
 
     @Headers({"Grant-Type: Password"})
     @FormUrlEncoded
