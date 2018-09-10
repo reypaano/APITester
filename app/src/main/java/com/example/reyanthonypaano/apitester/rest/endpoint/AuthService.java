@@ -14,7 +14,7 @@ public interface AuthService {
     @Headers({"Grant-Type: Password"})
     @FormUrlEncoded
     @POST("auth")
-    Call<UserAuth> postAPIAuthentication(
+    Call<UserAuth> postAuthentication(
             @Field("username") String username,
             @Field("password") String password
         );
