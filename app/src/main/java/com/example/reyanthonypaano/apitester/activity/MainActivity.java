@@ -9,7 +9,6 @@ import android.widget.Toast;
 import com.example.reyanthonypaano.apitester.R;
 import com.example.reyanthonypaano.apitester.model.UserAuth;
 import com.example.reyanthonypaano.apitester.rest.APIClient;
-import com.example.reyanthonypaano.apitester.rest.AuthInterceptor;
 import com.example.reyanthonypaano.apitester.rest.endpoint.AuthService;
 
 import retrofit2.Call;
@@ -35,12 +34,13 @@ public class MainActivity extends AppCompatActivity {
             AuthService authService = APIClient.createService(AuthService.class, "ec_client", "ec_secret");
 
             Call<UserAuth> call = authService.postAuthentication("arponce", "123");
+
             call.enqueue(new Callback<UserAuth>() {
                 @Override
                 public void onResponse(Call<UserAuth> call, Response<UserAuth> response) {
-                    Log.d(TAG, response.body().toString());
+                    Log.d(TAG, response.toString());
                     TextView test = (TextView) findViewById(R.id.helloWorld);
-                    test.setText(response.body().toString());
+                    test.setText(response.toString());
                 }
 
                 @Override
