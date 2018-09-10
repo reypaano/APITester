@@ -28,6 +28,8 @@ public class APIClient {
 
             return createService(serviceClass, authToken);
         }
+
+        return createService(serviceClass, null);
     }
 
     public static <S> S createService(Class<S> serviceClass, final String authToken) {
