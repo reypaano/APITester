@@ -11,6 +11,9 @@ public class User {
     @SerializedName("username")
     private String username;
 
+    @SerializedName("password")
+    private String password;
+
     @SerializedName("badge_no")
     private String badgeNo;
 
@@ -34,10 +37,4 @@ public class User {
 
     @SerializedName("full_name")
     private String fullName;
-
-    @SerializedName("access_token")
-    private String accessToken;
-
-    @SerializedName("token_type")
-    private String tokenType;
 }
