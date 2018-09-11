@@ -1,5 +1,6 @@
 package com.example.reyanthonypaano.apitester.rest.endpoint;
 
+import com.example.reyanthonypaano.apitester.model.User;
 import com.example.reyanthonypaano.apitester.model.UserAuth;
 
 import retrofit2.Call;
@@ -15,7 +16,7 @@ public interface AuthService {
     })
     @FormUrlEncoded
     @POST("auth")
-    Call<UserAuth> postAuthentication(
+    Call<User> postAuthentication(
             @Field("username") String username,
             @Field("password") String password
         );
