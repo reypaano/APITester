@@ -1,5 +1,6 @@
 package com.example.reyanthonypaano.apitester.rest.endpoint;
 
+import com.example.reyanthonypaano.apitester.model.Data;
 import com.example.reyanthonypaano.apitester.model.User;
 import com.example.reyanthonypaano.apitester.model.UserAuth;
 
@@ -16,7 +17,7 @@ public interface AuthService {
     })
     @FormUrlEncoded
     @POST("auth")
-    Call<User> postAuthentication(
+    Call<Data> postAuthentication(
             @Field("username") String username,
             @Field("password") String password
         );
