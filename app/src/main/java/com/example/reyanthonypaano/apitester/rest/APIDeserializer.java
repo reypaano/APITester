@@ -14,7 +14,7 @@ public class APIDeserializer<T> implements JsonDeserializer<T>{
             throws JsonParseException
     {
         // Get the "content" element from the parsed JSON
-        JsonElement content = je.getAsJsonObject().get("user");
+        JsonElement content = je.getAsJsonObject().get("data");
 
         // Deserialize it. You use a new instance of Gson to avoid infinite recursion
         // to this deserializer

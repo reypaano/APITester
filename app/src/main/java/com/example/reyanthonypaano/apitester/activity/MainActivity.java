@@ -1,5 +1,7 @@
 package com.example.reyanthonypaano.apitester.activity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.reyanthonypaano.apitester.R;
+import com.example.reyanthonypaano.apitester.model.Data;
 import com.example.reyanthonypaano.apitester.model.User;
 import com.example.reyanthonypaano.apitester.model.UserAuth;
 import com.example.reyanthonypaano.apitester.rest.APIClient;
@@ -30,8 +33,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private String toastMessage = "";
     private String username;
-    private String password;
-
+    private String password
+            ;
+    SharedPreferences pref;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         username = etUsername.getText().toString();
         password = etPassword.getText().toString();
 
+        pref = getSharedPreferences("user_details", MODE_PRIVATE);
+
 
         if(API_KEY.isEmpty()) {
             toastMessage = "Obtaining API key...";
@@ -58,31 +65,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             AuthService authService = APIClient.createService(AuthService.class, Constants.API_CLIENT_ID, Constants.API_CLIENT_SECRET);
 
-            Call<User> call = authService.postAuthentication(username, password);
+            Call<Data> call = authService.postAuthentication(username, password);
 
-            call.enqueue(new Callback<User>() {
+            call.enqueue(new Callback<Data>() {
                 @Override
-                public void onResponse(Call<User> call, Response<User> response) {
-                    if (response.isSuccessful()){
-                        Toast.makeText(getBaseContext(),String.valueOf(response.body()), Toast.LENGTH_SHORT).show();
-                    }
+                public void onResponse(Call<Data> call, Response<Data> response) {
                     Log.d(TAG, response.toString());
                     TextView test = (TextView) findViewById(R.id.helloWorld);
-                    test.setText(response.body().getBadgeNo().toString());
-
-
-                    toastMessage = "Successfully obtained API key...";
-                    Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
+                    test.setText(response.body().getAccess_token().toString());
+//
+//                    if (!response.body().getAccess_token().isEmpty()){
+//
+//                        SharedPreferences.Editor editor = pref.edit();
+//                        editor.putString("access_token",response.body().getAccess_token());
+//                        editor.commit();
+//                        Toast.makeText(getApplicationContext(), "Login Successful!", Toast.LENGTH_SHORT).show();
+//                        intent = new Intent(MainActivity.this, DetailsActivity.class);
+//                        startActivity(intent);
+//                    }
+//                    else {
+//                        Toast.makeText(getApplicationContext(), "Login Failed!", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//
+//
+//                    toastMessage = "Successfully obtained API key...";
+//                    Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
-                public void onFailure(Call<User> call, Throwable t) {
+                public void onFailure(Call<Data> call, Throwable t) {
                     Log.e(TAG, t.toString());
 
                     toastMessage = "Failed to obtain API key...";
                     Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
                 }
             });
+            Toast.makeText(this, new  Data().getAccess_token(), Toast.LENGTH_SHORT).show();
 
             return;
         }

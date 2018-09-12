@@ -1,8 +1,8 @@
 package com.example.reyanthonypaano.apitester.rest;
 
-import android.text.StaticLayout;
 import android.text.TextUtils;
 
+import com.example.reyanthonypaano.apitester.model.Data;
 import com.example.reyanthonypaano.apitester.model.User;
 import com.example.reyanthonypaano.apitester.rest.config.Constants;
 import com.google.gson.Gson;
@@ -18,7 +18,7 @@ public class APIClient {
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
     private static Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(User.class, new APIDeserializer<User>())
+                    .registerTypeAdapter(Data.class, new APIDeserializer<Data>())
                     .create();
 
     private static Retrofit.Builder builder = new Retrofit.Builder()
